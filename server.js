@@ -13,7 +13,7 @@ app.use(app.router);
 app.get('/', function(req, res, next) {
     res.render('layout.html');
 });
-app.listen(9000);
+app.listen(process.env.PORT || 9000);
 
 process.on('uncaughtException', function(e) {
     console.log('Uncaught exception:' + e);
