@@ -4,6 +4,9 @@ var _ = require('underscore');
 var app = express();
 var cons = require('consolidate');
 var partials = require('express-partials');
+var fs = require('fs');
+
+var viewFiles;
 
 app.set('views', __dirname + '/views');
 app.engine('html', cons.underscore);
@@ -19,19 +22,17 @@ app.get('/', function(req, res, next) {
         layout : 'layout.html'
     });
 });
-app.get('/signin', function(req, res, next) {
-    res.render('signin.html', {
-        layout : 'layout.html'
-    });
-});
-app.get('/register', function(req, res, next) {
-    res.render('register.html', {
-        layout : 'layout.html'
-    });
-});
-app.get('/select_players', function(req, res, next) {
-    res.render('select_players.html', {
-        layout : 'layout.html'
+
+viewFiles = fs.readdirSync('views');
+console.log(viewFiles);
+
+_.each(viewFiles, function(filename) {
+    var prefix = filename.substring(0, filename.indexOf('.'));
+    
+    app.get('/'+prefix, function(req, res, next) {
+        res.render(filename, {
+            layout : 'layout.html'
+        });
     });
 });
 
