@@ -32,7 +32,8 @@ app.get('/', function(req, res, next) {
 routes.load(app);
 
 var additionalBusinessLogic = {
-    'players' : BusinessLogic.retrievePlayers
+    'players' : BusinessLogic.retrievePlayers,
+    'leagues' : BusinessLogic.retrieveLeagues,
 };
 
 viewFiles = fs.readdirSync('views');

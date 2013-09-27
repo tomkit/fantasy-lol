@@ -11,7 +11,7 @@ playerSchema.statics.getAllPlayers = function(cb) {
     this.find({}, 'username', function(err, players) {
         
 //        var playerObjects = players.toObject();
-        console.log(players);
+//        console.log(players);
         cb(players);
     });
 };

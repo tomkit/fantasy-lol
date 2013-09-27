@@ -1,0 +1,17 @@
+Hero Profile | <a href="/main">Home</a>
+<br>
+------------------------------------
+<br><br>
+<table>
+<tr>
+<td>League Name</td>
+<td>id</td>
+</tr>
+
+<% for(var i = 0; i < leagues.length; i++) { %>
+    <tr>
+        <td><%= leagues[i].league_name %></td>
+        <td><%= leagues[i].id %></td>
+    </tr>
+<% } %>
+</table>
