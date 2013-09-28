@@ -2,6 +2,7 @@
     "name": "yournamehere",
     "version": "0.1.0",    
     "dependencies": {
+        "async":"0.2.9",
         "consolidate":"0.8.0",
         "express":"3.1.0",
         "express-partials":"0.1.1",

@@ -34,6 +34,7 @@ routes.load(app);
 var additionalBusinessLogic = {
     'players' : BusinessLogic.retrievePlayers,
     'leagues' : BusinessLogic.retrieveLeagues,
+    'team' : BusinessLogic.retrieveAthletesAndTeam
 };
 
 viewFiles = fs.readdirSync('views');
@@ -41,17 +42,25 @@ _.each(viewFiles, function(filename) {
     var prefix = filename.substring(0, filename.indexOf('.'));
     
     app.get('/'+prefix, function(req, res, next) {
+        var loggedInUser = req.user || {
+            id : -1
+        };
+        
         if(additionalBusinessLogic[prefix]) {
             additionalBusinessLogic[prefix](function(json) {
-                console.log(json);
+                
+                console.log('rendering:');
+                console.log(req.user);
                 
                 res.render(filename, _.extend({
-                    layout : 'layout.html'
+                    layout : 'layout.html',
+                    user_id : loggedInUser.id
                 }, json));
             });
         } else {
             res.render(filename, _.extend({
-                layout : 'layout.html'
+                layout : 'layout.html',
+                user_id : loggedInUser.id
             }));
         }
     });

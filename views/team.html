@@ -2,10 +2,21 @@ Your Team Page | <a href="/main">Home</a>
 <br>
 ------------------------------------
 <br><br>
+
+Your Team:<br>
 <ul>
-    <li>Spot 1: <a href="/athlete_profile">Balls</a> <a href="/trade">Trade</a></li>
-    <li>Spot 2: <a href="/athlete_profile">Patoy</a> <a href="/trade">Trade</a></li>
-    <li>Spot 3: <a href="/athlete_profile">Link</a> <a href="/trade">Trade</a></li>
-    <li>Spot 4: <a href="/athlete_profile">Bigfatip</a> <a href="/trade">Trade</a></li>
-    <li>Spot 5: <a href="/athlete_profile">Meteos</a> <a href="/trade">Trade</a></li>
+    <% var i; %>
+    <% for(i = 0; i < team.length; i++) { %>    
+        <li>Spot 1: <a href="/athlete_profile">team[i].nickname</a> <a href="/trade">Trade</a></li>
+    <% } %>
+</ul>
+
+Free Agents:<br>
+<ul>
+    <% var i; %>
+    <% for(i = 0; i < athletes.length; i++) { %>    
+        <li>Spot 1: <a href="/athlete_profile">athletes[i].nickname</a>
+            <form action="" method="post"><a href="/trade">Add</a></form>
+        </li>
+    <% } %>
 </ul>

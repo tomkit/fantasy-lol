@@ -9,9 +9,6 @@ var playerSchema = new mongoose.Schema({
 
 playerSchema.statics.getAllPlayers = function(cb) {
     this.find({}, 'username', function(err, players) {
-        
-//        var playerObjects = players.toObject();
-//        console.log(players);
         cb(players);
     });
 };
@@ -40,8 +37,25 @@ playerSchema.statics.createPlayer = function(req, res) {
 };
 
 playerSchema.statics.login = function(req, res) {
-    this.find({'username':'sdf'}, function(err, player) {
-        res.redirect('/main');
+    var username = req.param('username');
+    
+    this.find({
+        'username' : username
+    }, function(err, player) {
+        
+        if(player && player.length) {
+            req.user = {
+                id : player[0].id
+            };            
+            
+            console.log('logged in:');
+            console.log(req.user);
+            
+            res.redirect('/main');
+        } else {
+            res.redirect('/fail_login');
+        }
+        
     });
 };
 

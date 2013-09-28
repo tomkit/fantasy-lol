@@ -1,7 +1,9 @@
 var mongoose = require('mongoose');
+var ObjectId = mongoose.Schema.ObjectId;
 
 var leagueSchema = new mongoose.Schema({
     created_date : Date,
+    user_id : ObjectId,
     league_name : String,
     draft_date : Date,
     max_players : Number,
@@ -10,12 +12,9 @@ var leagueSchema = new mongoose.Schema({
 });
 
 leagueSchema.statics.getAllLeagues = function(cb) {
-    this.find({}, 'league_name', function(err, leagues) {
-        
-//      var playerObjects = players.toObject();
-//      console.log(leagues);
-      cb(leagues);
-  });
+    this.find({}, 'league_name', function(err, leagues) {    
+        cb(leagues);
+    });
 };
 
 leagueSchema.statics.createLeague = function(req, res) {
