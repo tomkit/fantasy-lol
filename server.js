@@ -9,12 +9,24 @@ var routes = require('./routes.js');
 var utils = require('./utils/utils.js');
 var datalayer = require('./datalayer.js');
 var BusinessLogic = require('./businesslogic.js');
+var RedisStore = require('connect-redis')(express);
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var Player = require('./models/player.js');
 var viewFiles;
 
 app.set('views', __dirname + '/views');
 app.engine('html', cons.underscore);
 app.set('view engine', 'underscore');
 
+app.use(express.cookieParser());
+app.use(express.session({
+    secret: "sdfjklsjlfksdjfkldjslfjlksdjfljsdlkfjsdklfjsdljflksjdflksd",
+    store: new RedisStore({ 
+        host: 'localhost', 
+        port: 6379 
+    })
+}));
 app.use(express.static(__dirname + '/public')); 
 app.use(express.bodyParser());
 app.use(utils.extractParams);
@@ -34,7 +46,8 @@ routes.load(app);
 var additionalBusinessLogic = {
     'players' : BusinessLogic.retrievePlayers,
     'leagues' : BusinessLogic.retrieveLeagues,
-    'team' : BusinessLogic.retrieveAthletesAndTeam
+    'team' : BusinessLogic.retrieveAthletesAndTeam,
+    'logout' : BusinessLogic.logout,
 };
 
 viewFiles = fs.readdirSync('views');
@@ -42,7 +55,7 @@ _.each(viewFiles, function(filename) {
     var prefix = filename.substring(0, filename.indexOf('.'));
     
     app.get('/'+prefix, function(req, res, next) {
-        var loggedInUser = req.user || {
+        var loggedInUser = req.session.user || {
             id : -1
         };
         
@@ -50,7 +63,7 @@ _.each(viewFiles, function(filename) {
             additionalBusinessLogic[prefix](function(json) {
                 
                 console.log('rendering:');
-                console.log(req.user);
+                console.log(req.session.user);
                 
                 res.render(filename, _.extend({
                     layout : 'layout.html',
@@ -65,6 +78,21 @@ _.each(viewFiles, function(filename) {
         }
     });
 });
+
+passport.use(new LocalStrategy(
+    function(username, password, done) {
+        Player.localLogin(function(err, user) {
+            if(err) { return done(err); }
+            if(!user) {
+                return done(null, false, { message: 'Incorrect username.' });
+            }
+            if(!user.validPassword(password)) {
+                return done(null, false, { message: 'Incorrect password.' });
+            }
+            return done(null, user);
+        }, username);
+    }
+));
 
 app.listen(process.env.PORT || 9000);
 

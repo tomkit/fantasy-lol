@@ -36,6 +36,19 @@ playerSchema.statics.createPlayer = function(req, res) {
     res.redirect('/main');
 };
 
+playerSchema.statics.localLogin = function(cb, username) {
+    this.find({
+        'username' : username
+    }, function(err, player) {
+        
+        if(player && player.length) {
+            cb(null, username);
+        } else {
+            cb(new Error("Couldn't log in."));
+        }
+    });
+};
+
 playerSchema.statics.login = function(req, res) {
     var username = req.param('username');
     
@@ -44,12 +57,16 @@ playerSchema.statics.login = function(req, res) {
     }, function(err, player) {
         
         if(player && player.length) {
-            req.user = {
+            console.log(player[0]);
+            console.log(player[0].id);
+            console.log(req.session);
+            
+            req.session.user = {
                 id : player[0].id
-            };            
+            };
             
             console.log('logged in:');
-            console.log(req.user);
+            console.log(req.session.user);
             
             res.redirect('/main');
         } else {
