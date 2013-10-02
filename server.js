@@ -30,9 +30,38 @@ app.use(express.session({
 app.use(express.static(__dirname + '/public')); 
 app.use(express.bodyParser());
 app.use(utils.extractParams);
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(app.router);
-
 app.use(partials());
+
+passport.use(new LocalStrategy(
+    function(username, password, done) {
+        Player.localLogin(function(err, player) {
+            console.log('LocalStrategy');
+            console.log(err);
+            console.log(player);
+            if(err) { return done(err); }
+            if(!player) {
+                return done(null, false, { message: 'Incorrect username.' });
+            }
+            if(!player.validPassword(password)) {
+                return done(null, false, { message: 'Incorrect password.' });
+            }
+            return done(null, player);
+        }, username);
+    }
+));
+
+passport.serializeUser(function(user, done) {
+    done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+    Player.findById(id, function(err, user) {
+        done(err, user);
+    });
+});
 
 // Routes
 app.get('/', function(req, res, next) {
@@ -55,7 +84,7 @@ _.each(viewFiles, function(filename) {
     var prefix = filename.substring(0, filename.indexOf('.'));
     
     app.get('/'+prefix, function(req, res, next) {
-        var loggedInUser = req.session.user || {
+        var loggedInUser = req.user || {
             id : -1
         };
         
@@ -63,7 +92,7 @@ _.each(viewFiles, function(filename) {
             additionalBusinessLogic[prefix](function(json) {
                 
                 console.log('rendering:');
-                console.log(req.session.user);
+                console.log(req.user);
                 
                 res.render(filename, _.extend({
                     layout : 'layout.html',
@@ -78,21 +107,6 @@ _.each(viewFiles, function(filename) {
         }
     });
 });
-
-passport.use(new LocalStrategy(
-    function(username, password, done) {
-        Player.localLogin(function(err, user) {
-            if(err) { return done(err); }
-            if(!user) {
-                return done(null, false, { message: 'Incorrect username.' });
-            }
-            if(!user.validPassword(password)) {
-                return done(null, false, { message: 'Incorrect password.' });
-            }
-            return done(null, user);
-        }, username);
-    }
-));
 
 app.listen(process.env.PORT || 9000);
 

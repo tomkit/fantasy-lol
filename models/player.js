@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 var playerSchema = new mongoose.Schema({
     created_date : Date,
     username : String,
+    password : String,
     email : String,
     country : String
 });
@@ -16,6 +17,7 @@ playerSchema.statics.getAllPlayers = function(cb) {
 playerSchema.statics.createPlayer = function(req, res) {
     console.log('got here');
     var username = req.param('username');
+    var password = req.param('password');
     var email = req.param('email');
     var country = req.param('country');
     
@@ -23,6 +25,7 @@ playerSchema.statics.createPlayer = function(req, res) {
     
     var player = new this({
         username : username,
+        password : password,
         email : email,
         country : country
     });
@@ -33,7 +36,15 @@ playerSchema.statics.createPlayer = function(req, res) {
         
     });
     
-    res.redirect('/main');
+    req.login(player, function(err) {
+        if(err) { return next(err); }
+        console.log('redirecting after creation');
+        return res.redirect('/main');
+    });
+};
+
+playerSchema.methods.validPassword = function(password) {
+    return password = this.password;
 };
 
 playerSchema.statics.localLogin = function(cb, username) {
@@ -42,7 +53,7 @@ playerSchema.statics.localLogin = function(cb, username) {
     }, function(err, player) {
         
         if(player && player.length) {
-            cb(null, username);
+            cb(null, player[0]);
         } else {
             cb(new Error("Couldn't log in."));
         }
@@ -59,14 +70,14 @@ playerSchema.statics.login = function(req, res) {
         if(player && player.length) {
             console.log(player[0]);
             console.log(player[0].id);
-            console.log(req.session);
+            console.log(req.user);
             
             req.session.user = {
                 id : player[0].id
             };
             
             console.log('logged in:');
-            console.log(req.session.user);
+            console.log(req.user);
             
             res.redirect('/main');
         } else {
