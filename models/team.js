@@ -26,4 +26,4 @@ teamSchema.statics.getAllTeams = function(cb, userId) {
 
 var Team = mongoose.model('Team', teamSchema);
 
-module.exports = Team;
+module.exports = Team; 
