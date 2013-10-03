@@ -18,6 +18,8 @@ var viewFiles;
 var REDIS_HOST = process.env.REDISTOGO_URL ? process.env.REDISTOGO_URL.split(':') : 'localhost';
 var REDIS_PORT = process.env.REDISTOGO_URL ? parseInt(process.env.REDISTOGO_URL.split(':')[3].substring(0,4), 10) : 6379;
 
+console.log(REDIS_HOST + REDIS_PORT + '');
+
 app.set('views', __dirname + '/views');
 app.engine('html', cons.underscore);
 app.set('view engine', 'underscore');
