@@ -15,6 +15,9 @@ var LocalStrategy = require('passport-local').Strategy;
 var Player = require('./models/player.js');
 var viewFiles;
 
+var REDIS_HOST = process.env.REDISTOGO_URL ? process.env.REDISTOGO_URL.split(':') : 'localhost';
+var REDIS_PORT = process.env.REDISTOGO_URL ? parseInt(process.env.REDISTOGO_URL.split(':')[3].substring(0,4), 10) : 6379;
+
 app.set('views', __dirname + '/views');
 app.engine('html', cons.underscore);
 app.set('view engine', 'underscore');
@@ -23,8 +26,8 @@ app.use(express.cookieParser());
 app.use(express.session({
     secret: "sdfjklsjlfksdjfkldjslfjlksdjfljsdlkfjsdklfjsdljflksjdflksd",
     store: new RedisStore({ 
-        host: 'localhost', 
-        port: 6379 
+        host: REDIS_HOST, 
+        port: REDIS_PORT 
     })
 }));
 app.use(express.static(__dirname + '/public')); 
