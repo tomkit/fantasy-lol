@@ -15,23 +15,30 @@ var LocalStrategy = require('passport-local').Strategy;
 var Player = require('./models/player.js');
 var viewFiles;
 
-var REDIS_HOST = process.env.REDISTOGO_URL ? process.env.REDISTOGO_URL.substring(0, process.env.REDISTOGO_URL.length-6) : 'localhost';
-var REDIS_PORT = process.env.REDISTOGO_URL ? parseInt(process.env.REDISTOGO_URL.split(':')[3].substring(0,4), 10) : 6379;
-
-console.log(REDIS_HOST + REDIS_PORT + '');
-
 app.set('views', __dirname + '/views');
 app.engine('html', cons.underscore);
 app.set('view engine', 'underscore');
 
 app.use(express.cookieParser());
-app.use(express.session({
-    secret: "sdfjklsjlfksdjfkldjslfjlksdjfljsdlkfjsdklfjsdljflksjdflksd",
-    store: new RedisStore({ 
-        host: REDIS_HOST, 
-        port: REDIS_PORT 
-    })
-}));
+if(process.env.REDISTOGO_URL) {
+    app.use(express.session({
+        secret: "sdfjklsjlfksdjfkldjslfjlksdjfljsdlkfjsdklfjsdljflksjdflksd",
+        store: new RedisStore({ 
+            host: 'redistogo:24f2fdb9e50b2dd8fcf1e124c138eb85@koi.redistogo.com', 
+            port: 9867,
+//            pass: '24f2fdb9e50b2dd8fcf1e124c138eb85'
+        })
+    }));
+} else {
+    app.use(express.session({
+        secret: "sdfjklsjlfksdjfkldjslfjlksdjfljsdlkfjsdklfjsdljflksjdflksd",
+        store: new RedisStore({ 
+            host: 'localhost', 
+            port: 6379 
+        })
+    }));
+}
+
 app.use(express.static(__dirname + '/public')); 
 app.use(express.bodyParser());
 app.use(utils.extractParams);
