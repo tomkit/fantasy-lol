@@ -21,12 +21,15 @@ app.set('view engine', 'underscore');
 
 app.use(express.cookieParser());
 if(process.env.REDISTOGO_URL) {
+    console.log('redis2go');
     app.use(express.session({
         secret: "sdfjklsjlfksdjfkldjslfjlksdjfljsdlkfjsdklfjsdljflksjdflksd",
         store: new RedisStore({ 
-            host: 'redistogo:24f2fdb9e50b2dd8fcf1e124c138eb85@koi.redistogo.com', 
+            host: 'koi.redistogo.com', 
             port: 9867,
-//            pass: '24f2fdb9e50b2dd8fcf1e124c138eb85'
+            pass: '24f2fdb9e50b2dd8fcf1e124c138eb85',
+            user: 'redistogo',
+            username: 'redistogo'
         })
     }));
 } else {
