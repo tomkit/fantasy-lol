@@ -15,7 +15,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var Player = require('./models/player.js');
 var viewFiles;
 
-var REDIS_HOST = process.env.REDISTOGO_URL ? process.env.REDISTOGO_URL.split(':') : 'localhost';
+var REDIS_HOST = process.env.REDISTOGO_URL ? process.env.REDISTOGO_URL.split(':').slice(0,3).join(':') : 'localhost';
 var REDIS_PORT = process.env.REDISTOGO_URL ? parseInt(process.env.REDISTOGO_URL.split(':')[3].substring(0,4), 10) : 6379;
 
 console.log(REDIS_HOST + REDIS_PORT + '');
