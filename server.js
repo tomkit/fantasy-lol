@@ -90,7 +90,7 @@ routes.load(app);
 var additionalBusinessLogic = {
     'players' : BusinessLogic.retrievePlayers,
     'leagues' : BusinessLogic.retrieveLeagues,
-    'team' : BusinessLogic.retrieveAthletesAndTeam,
+    'team' : BusinessLogic.retrieveTeams,
     'logout' : BusinessLogic.logout,
 };
 
@@ -113,7 +113,7 @@ _.each(viewFiles, function(filename) {
                     layout : 'layout.html',
                     user_id : loggedInUser.id
                 }, json));
-            });
+            }, req.user);
         } else {
             res.render(filename, _.extend({
                 layout : 'layout.html',

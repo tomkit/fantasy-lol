@@ -16,7 +16,21 @@ var teamSchema = new mongoose.Schema({
     }]
 });
 
-teamSchema.statics.getAllTeams = function(cb, userId) {
+teamSchema.statics.createTeam = function(opts) {
+    var team = new this({
+        created_date : Date.now(),
+        user_id : opts.userId,
+        team_name : opts.teamName,
+        league_id : opts.leagueId
+    });
+    
+    team.save(function(err) {
+        if(err) console.log(err);
+        else console.log('saved');
+    });
+};
+
+teamSchema.statics.getAllUserTeams = function(cb, userId) {
     this.find({
         user_id : userId
     }, function(err, teams) {    

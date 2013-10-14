@@ -33,7 +33,6 @@ playerSchema.statics.createPlayer = function(req, res) {
     player.save(function(err) {
         if(err) console.log(err);
         else console.log('saved');
-        
     });
     
     req.login(player, function(err) {

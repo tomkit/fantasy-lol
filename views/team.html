@@ -6,17 +6,9 @@ Your Team Page | <a href="/main">Home</a>
 Your Team:<br>
 <ul>
     <% var i; %>
-    <% for(i = 0; i < team.length; i++) { %>    
-        <li>Spot 1: <a href="/athlete_profile">team[i].nickname</a> <a href="/trade">Trade</a></li>
+    <% for(i = 0; i < teams.length; i++) { %>    
+        <li><a href="#"><%=teams[i].team_name%></a></li>
     <% } %>
 </ul>
 
 Free Agents:<br>
-<ul>
-    <% var i; %>
-    <% for(i = 0; i < athletes.length; i++) { %>    
-        <li>Spot 1: <a href="/athlete_profile">athletes[i].nickname</a>
-            <form action="" method="post"><a href="/trade">Add</a></form>
-        </li>
-    <% } %>
-</ul>

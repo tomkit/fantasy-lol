@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.ObjectId;
+var Team = require('./team.js');
 
 var leagueSchema = new mongoose.Schema({
     created_date : Date,
@@ -20,6 +21,15 @@ leagueSchema.statics.getAllLeagues = function(cb) {
 leagueSchema.statics.createLeague = function(req, res) {
     console.log('got here');
     var leagueName = req.param('league_name');
+    var players = [];
+    players.push(req.param('player1_email'));
+    players.push(req.param('player2_email'));
+    players.push(req.param('player3_email'));
+    players.push(req.param('player4_email'));
+    players.push(req.param('player5_email'));
+    players.push(req.param('player6_email'));
+    players.push(req.param('player7_email'));
+    players.push(req.param('player8_email'));
     
     console.log('leagueName:'+leagueName);
     
@@ -29,9 +39,18 @@ leagueSchema.statics.createLeague = function(req, res) {
     
     league.save(function(err) {
         if(err) console.log(err);
-        else console.log('saved');
-        
+        else console.log('saved');        
     });
+    
+    for(var i = 0; i < players.length; i++) {
+        if(players[i]) {
+            Team.createTeam({
+                userId: req.user.id,
+                teamName: 'example team name',
+                leagueId: league.id
+            });
+        }
+    }
     
     res.redirect('/main');
 };

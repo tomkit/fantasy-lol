@@ -6,8 +6,7 @@ var async = require('async');
 
 var BusinessLogic = {};
 
-BusinessLogic.retrievePlayers = function(cb) {
-    
+BusinessLogic.retrievePlayers = function(cb, user) {
     Player.getAllPlayers(function(players) {
         cb({
             'players' : players
@@ -15,8 +14,7 @@ BusinessLogic.retrievePlayers = function(cb) {
     });
 };
 
-BusinessLogic.retrieveLeagues = function(cb) {
-  
+BusinessLogic.retrieveLeagues = function(cb, user) {
     League.getAllLeagues(function(leagues) {
         cb({
             'leagues' : leagues
@@ -24,24 +22,12 @@ BusinessLogic.retrieveLeagues = function(cb) {
     });
 };
 
-BusinessLogic.retrieveAthletesAndTeam = function(cb) {
-//    async.parallel([
-//                    function(cb1) {
-//                        Team.getAllMembers(function(members) {
-//                            cb1(null, members);
-//                        });
-//                    },
-//                    function(cb2) {
-//                        Athlete.getAllAthletes(function(athletes) {
-//                            cb2(null, athletes);
-//                        });
-//                    }], function(err, results) {
-//                        
-//                    });
-    cb({
-        'team' : [],
-        'athletes' : []
-    });
+BusinessLogic.retrieveTeams = function(cb, user) {
+    Team.getAllUserTeams(function(teams) {
+        cb({
+            'teams' : teams
+        });
+    }, user.id);
 };
 
 module.exports = BusinessLogic;
