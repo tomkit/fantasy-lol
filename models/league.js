@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.ObjectId;
 var Team = require('./team.js');
+var Player = require('./player.js');
 
 var leagueSchema = new mongoose.Schema({
     created_date : Date,
@@ -30,7 +31,7 @@ leagueSchema.statics.createLeague = function(req, res) {
     players.push(req.param('player6_email'));
     players.push(req.param('player7_email'));
     players.push(req.param('player8_email'));
-    
+    players.push(req.user.email);
     console.log('leagueName:'+leagueName);
     
     var league = new this({
@@ -42,15 +43,28 @@ leagueSchema.statics.createLeague = function(req, res) {
         else console.log('saved');        
     });
     
-    for(var i = 0; i < players.length; i++) {
-        if(players[i]) {
-            Team.createTeam({
-                userId: req.user.id,
-                teamName: 'example team name',
-                leagueId: league.id
-            });
+    Player.resolveEmails(function(playerObjs) {
+        for(var i = 0; i < players.length; i++) {
+            
+            if(players[i]) {
+                var playerEmail = players[i];
+                console.log(playerObjs);
+                // Inefficient, but do it for now
+                for(var j = 0; j < playerObjs.length; j++) {
+                    if(playerObjs[j].email === playerEmail) {
+                        Team.createTeam({
+                            userId: playerObjs[j].id,
+                            teamName: 'team name placeholder',
+                            leagueId: league.id
+                        });
+                        break;
+                    }
+                }
+            }
         }
-    }
+    }, players);
+    
+    
     
     res.redirect('/main');
 };

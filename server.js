@@ -87,13 +87,6 @@ app.get('/', function(req, res, next) {
 
 routes.load(app);
 
-var additionalBusinessLogic = {
-    'players' : BusinessLogic.retrievePlayers,
-    'leagues' : BusinessLogic.retrieveLeagues,
-    'team' : BusinessLogic.retrieveTeams,
-    'logout' : BusinessLogic.logout,
-};
-
 viewFiles = fs.readdirSync('views');
 _.each(viewFiles, function(filename) {
     var prefix = filename.substring(0, filename.indexOf('.'));
@@ -103,8 +96,8 @@ _.each(viewFiles, function(filename) {
             id : -1
         };
         
-        if(additionalBusinessLogic[prefix]) {
-            additionalBusinessLogic[prefix](function(json) {
+        if(BusinessLogic[prefix]) {
+            BusinessLogic[prefix](function(json) {
                 
                 console.log('rendering:');
                 console.log(req.user);
@@ -126,5 +119,5 @@ _.each(viewFiles, function(filename) {
 app.listen(process.env.PORT || 9000);
 
 process.on('uncaughtException', function(e) {
-    console.log('Uncaught exception:' + e);
+    console.log('Uncaught exception:' + e, e.stack);
 });

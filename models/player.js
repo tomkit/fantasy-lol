@@ -14,6 +14,16 @@ playerSchema.statics.getAllPlayers = function(cb) {
     });
 };
 
+playerSchema.statics.resolveEmails = function(cb, emails) {
+    this.find({
+        email : {
+            $in : emails
+        }
+    }, 'id email', function(err, players) {
+        cb(players);
+    });
+};
+
 playerSchema.statics.createPlayer = function(req, res) {
     console.log('got here');
     var username = req.param('username');
