@@ -6,6 +6,14 @@ var async = require('async');
 
 var BusinessLogic = {};
 
+BusinessLogic.player = function(cb, user, resource, resourceId) {
+    Player.getPlayer(function(player) {
+        cb({
+            'player' : player
+        });
+    }, user.id, resourceId);
+};
+
 BusinessLogic.players = function(cb, user) {
     Player.getAllPlayers(function(players) {
         cb({

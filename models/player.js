@@ -8,6 +8,16 @@ var playerSchema = new mongoose.Schema({
     country : String
 });
 
+playerSchema.statics.getPlayer = function(cb, userId) {
+    this.find({
+        _id : userId
+    }, function(err, players) {
+        console.log('plaeyr:');
+        console.log(players[0]);
+        cb(players[0]);
+    });
+};
+
 playerSchema.statics.getAllPlayers = function(cb) {
     this.find({}, 'username', function(err, players) {
         cb(players);
