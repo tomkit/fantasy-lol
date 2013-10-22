@@ -18,6 +18,16 @@ var teamSchema = new mongoose.Schema({
     }]
 });
 
+teamSchema.statics.getTeam = function(cb, userId, leagueId) {
+    this.find({
+        user_id : userId,
+        league_id : leagueId
+    }, function(err, teams) {
+        console.log(teams);
+        cb(teams[0]);
+    });
+};
+
 teamSchema.statics.createTeam = function(opts) {
     var team = new this({
         created_date : Date.now(),

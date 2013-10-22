@@ -7,7 +7,7 @@ Your Teams:<br>
 <ul>
     <% var i; %>
     <% for(i = 0; i < teams.length; i++) { %>    
-        <li><a href="/team"><%=teams[i].team_name%></a></li>
+        <li><a href="/teams/<%=teams[i].league_id%>"><%=teams[i].team_name%></a></li>
     <% } %>
 </ul>
 

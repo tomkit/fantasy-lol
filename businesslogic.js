@@ -22,7 +22,17 @@ BusinessLogic.leagues = function(cb, user) {
     });
 };
 
-BusinessLogic.teams = function(cb, user) {
+BusinessLogic.team = function(cb, user, resource, resourceId) {
+    console.log('getting team');
+    Team.getTeam(function(team) {
+        cb({
+            'team' : team
+        });
+    }, user.id, resourceId);
+};
+
+BusinessLogic.teams = function(cb, user, resource, resourceId) {
+    console.log('getting teams');
     Team.getAllUserTeams(function(teams) {
         cb({
             'teams' : teams

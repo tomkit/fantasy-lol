@@ -88,31 +88,41 @@ app.get('/', function(req, res, next) {
 routes.load(app);
 
 viewFiles = fs.readdirSync('views');
-_.each(viewFiles, function(filename) {
-    var prefix = filename.substring(0, filename.indexOf('.'));
+function registerGet(req, res, prefix, filename, resourceId) {
+    var loggedInUser = req.user || {
+        id : -1
+    };
+    console.log(prefix);
     
-    app.get('/'+prefix, function(req, res, next) {
-        var loggedInUser = req.user || {
-            id : -1
-        };
-        
-        if(BusinessLogic[prefix]) {
-            BusinessLogic[prefix](function(json) {
-                
-                console.log('rendering:');
-                console.log(req.user);
-                
-                res.render(filename, _.extend({
-                    layout : 'layout.html',
-                    user_id : loggedInUser.id
-                }, json));
-            }, req.user);
-        } else {
+    if(BusinessLogic[prefix]) {
+        BusinessLogic[prefix](function(json) {
+            
+            console.log('rendering:');
+            console.log(req.user);
+            
             res.render(filename, _.extend({
                 layout : 'layout.html',
                 user_id : loggedInUser.id
-            }));
-        }
+            }, json));
+        }, req.user, prefix, resourceId);
+    } else {
+        res.render(filename, _.extend({
+            layout : 'layout.html',
+            user_id : loggedInUser.id
+        }));
+    }
+}
+_.each(viewFiles, function(filename) {
+    var prefix = filename.substring(0, filename.indexOf('.'));
+    
+    app.get('/'+prefix, function(req, res) {
+        registerGet(req, res, prefix, filename);
+    });
+    
+    app.get('/'+prefix+'/:resourceId', function(req, res) {
+        var resourceId = req.param('resourceId');
+        console.log('resourceid');
+        registerGet(req, res, prefix.substring(0, prefix.length-1), filename.replace('s.', '.'), resourceId);
     });
 });
 
