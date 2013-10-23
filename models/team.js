@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.ObjectId;
+var _ = require('underscore');
 
 var teamSchema = new mongoose.Schema({
     created_date : Date,
@@ -23,8 +24,28 @@ teamSchema.statics.getTeam = function(cb, userId, leagueId) {
         user_id : userId,
         league_id : leagueId
     }, function(err, teams) {
-        console.log(teams);
-        cb(teams[0]);
+        var team = teams[0].toObject();
+        
+        console.log(team);
+        cb(team);
+    });
+};
+
+teamSchema.statics.updateTeam = function(req, res) {
+    var athleteIds = req.param('athlete_id');
+    var teamId = req.param('team_id');
+    console.log('athleteId'+athleteIds);
+    console.log('teamId'+teamId);
+    console.log(typeof athleteIds);
+    var athletesIdsArray = _.keys(athleteIds); 
+    console.log('athleteids'+athletesIdsArray);
+    this.update({
+        _id : teamId
+    }, {
+        athletes : athleteIds
+    }, function(err, affected) {
+        console.log(err);
+        console.log(affected);
     });
 };
 

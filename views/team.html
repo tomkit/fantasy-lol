@@ -11,7 +11,7 @@ Stats:<%=team.stats%><br>
 History:<%=team.opponent_history%><br>
 
 <br><br>
-<form action="/api/teams" method="put">
+<form action="/api/teams" method="post">
 <table>
 <tr>
 <td>In your team?</td>
@@ -20,10 +20,9 @@ History:<%=team.opponent_history%><br>
 <td>Nickname</td>
 <td>Country</td>
 </tr>
-
 <% for(var i = 0; i < athletes.length; i++) { %>
     <tr>
-        <td><input type="checkbox" <%=_.indexOf(team.athletes, athletes[i].id) > -1 ? 'checked' : ''%>></td>
+        <td><input type="checkbox" name="athlete_id" value="<%=athletes[i].id%>" <%=_.contains(team.athletes, athletes[i].id) ? 'checked' : ''%>></td>
         <td><%= athletes[i].first_name %></td>
         <td><%= athletes[i].last_name %></td>
         <td><%= athletes[i].nickname %></td>
@@ -31,5 +30,6 @@ History:<%=team.opponent_history%><br>
     </tr>
 <% } %>
 </table>
+<input type="text" name="team_id" value="<%=team.id%>" hidden></input>
 <input type="submit">
 </form>
