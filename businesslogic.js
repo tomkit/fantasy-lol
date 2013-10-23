@@ -32,11 +32,21 @@ BusinessLogic.leagues = function(cb, user) {
 
 BusinessLogic.team = function(cb, user, resource, resourceId) {
     console.log('getting team');
-    Team.getTeam(function(team) {
-        cb({
-            'team' : team
+    
+    async.parallel([function(parallelCB) {
+        Team.getTeam(function(team) {
+            parallelCB(null, team);
+        }, user.id, resourceId);
+    }, function(parallelCB) {
+        Athlete.getAllAthletes(function(athletes) {
+            parallelCB(null, athletes);
         });
-    }, user.id, resourceId);
+    }], function(err, results) {
+        cb({
+            'team' : results[0],
+            'athletes' : results[1]
+        });
+    });
 };
 
 BusinessLogic.teams = function(cb, user, resource, resourceId) {
@@ -46,6 +56,22 @@ BusinessLogic.teams = function(cb, user, resource, resourceId) {
             'teams' : teams
         });
     }, user.id);
+};
+
+BusinessLogic.athlete = function(cb, user, resource, resourceId) {
+    Athlete.getAthlete(function(athlete) {
+        cb({
+            'athlete' : athlete
+        });
+    }, user.id, resourceId);
+};
+
+BusinessLogic.athletes = function(cb, user) {
+    Athlete.getAllAthletes(function(athletes) {
+        cb({
+            'athletes' : athletes
+        });
+    });
 };
 
 module.exports = BusinessLogic;

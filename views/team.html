@@ -9,3 +9,27 @@ Your Team Name:<%=team.team_name%><br>
 Athletes:<%=team.athletes%><br>
 Stats:<%=team.stats%><br>
 History:<%=team.opponent_history%><br>
+
+<br><br>
+<form action="/api/teams" method="put">
+<table>
+<tr>
+<td>In your team?</td>
+<td>Firstname</td>
+<td>Lastname</td>
+<td>Nickname</td>
+<td>Country</td>
+</tr>
+
+<% for(var i = 0; i < athletes.length; i++) { %>
+    <tr>
+        <td><input type="checkbox" <%=_.indexOf(team.athletes, athletes[i].id) > -1 ? 'checked' : ''%>></td>
+        <td><%= athletes[i].first_name %></td>
+        <td><%= athletes[i].last_name %></td>
+        <td><%= athletes[i].nickname %></td>
+        <td><%= athletes[i].country %></td>
+    </tr>
+<% } %>
+</table>
+<input type="submit">
+</form>
