@@ -1,15 +1,10 @@
 <%= partial('header.html') %>
 
-<table>
-<tr>
-<td>League Name</td>
-<td>id</td>
-</tr>
 
+<h3>Leagues</h3>
 <% for(var i = 0; i < leagues.length; i++) { %>
-    <tr>
-        <td><%= leagues[i].league_name %></td>
-        <td><%= leagues[i].id %></td>
-    </tr>
+    <div class="row">
+        <div class="col-md-4"><%= leagues[i].league_name %></div>
+        <div class="col-md-4"><%= leagues[i].id %></div>
+    </div>
 <% } %>
-</table>
