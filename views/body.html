@@ -1,14 +1,13 @@
-Front Pages
-<br>
-------------------------------------
-<br><br>
+<%= partial('guest_header.html', { user_id: '#' }) %>
 
-<div>
-Fantasy League of Legends
+<div class="container">
+  <form class="form-signin" action="/api/login" method="post">
+    <h2 class="form-signin-heading">Please sign in</h2>
+    <input type="text" class="form-control" name="username" placeholder="Username" autofocus>
+    <input type="password" class="form-control" name="password" placeholder="Password">
+    <label class="checkbox">
+      <input type="checkbox" value="remember-me"> Remember me
+    </label>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+  </form>
 </div>
-<a href="/register">
-Register
-</a>
-<a href="/signin">
-Sign In
-</a>

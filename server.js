@@ -42,13 +42,14 @@ if(process.env.REDISTOGO_URL) {
     }));
 }
 
+app.use(partials());
 app.use(express.static(__dirname + '/public')); 
 app.use(express.bodyParser());
 app.use(utils.extractParams);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(app.router);
-app.use(partials());
+
 
 passport.use(new LocalStrategy(
     function(username, password, done) {

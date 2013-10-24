@@ -1,10 +1,13 @@
-Signin Page
-<br>
-------------------------------------
-<br><br>
+<%= partial('header.html') %>
 
-<form action="/api/login" method="post">
-    username:<input type="text" name="username"/>
-    password:<input type="password" name="password"/>
-    <input type="submit">
-</form>
+<div class="container">
+  <form class="form-signin" action="/api/login" method="post">
+    <h2 class="form-signin-heading">Please sign in</h2>
+    <input type="text" class="form-control" name="username" placeholder="Username" autofocus>
+    <input type="password" class="form-control" name="password" placeholder="Password">
+    <label class="checkbox">
+      <input type="checkbox" value="remember-me"> Remember me
+    </label>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+  </form>
+</div>
