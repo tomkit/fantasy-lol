@@ -37,8 +37,8 @@ teamSchema.statics.updateTeam = function(req, res) {
     console.log('athleteId'+athleteIds);
     console.log('teamId'+teamId);
     console.log(typeof athleteIds);
-    var athletesIdsArray = _.keys(athleteIds); 
-    console.log('athleteids'+athletesIdsArray);
+//    var athletesIdsArray = _.keys(athleteIds); 
+//    console.log('athleteids'+athletesIdsArray);
     this.update({
         _id : teamId
     }, {
