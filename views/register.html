@@ -1,9 +1,15 @@
 <%= partial('header.html') %>
 
-<form action="/api/players" method="post">
-    username:<input type="text" name="username"/><br>
-    password:<input type="password" name="password"/><br>
-    email:<input type="text" name="email"/><br>
-    country:<input type="text" name="country"/>
-    <input type="submit"/>
-</form>
+<div class="container">
+  <form class="form-signin" action="/api/players" method="post">
+    <h2 class="form-signin-heading">Please register</h2>
+    <input type="text" class="form-control" name="username" placeholder="Username" autofocus>
+    <input type="password" class="form-control" name="password" placeholder="Password">
+    <input type="text" class="form-control" name="email" placeholder="Email">
+    <input type="text" class="form-control" name="country" placeholder="Country">
+    <label class="checkbox">
+      <input type="checkbox" value="remember-me"> Remember me
+    </label>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+  </form>
+</div>
