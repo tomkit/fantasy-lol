@@ -15,8 +15,9 @@ var LocalStrategy = require('passport-local').Strategy;
 var Player = require('./models/player.js');
 var viewFiles;
 
-app.set('views', __dirname + '/views');
 app.engine('html', cons.underscore);
+
+app.set('views', __dirname + '/views');
 app.set('view engine', 'underscore');
 
 app.use(express.cookieParser());
