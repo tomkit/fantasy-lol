@@ -1,0 +1,18 @@
+<%= partial('header.html') %>
+
+<form action="/api/gameresults" method="post">
+    player name:<input type="text" name="player_name"><br>
+    team name:<input type="text" name="team_name"><br>
+    opponent team name:<input type="text" name="opponent_team_name"><br>
+    game duration:<input type="text" name="game_duration"><br>
+    win:<input type="text" name="win"><br>
+    spells:<input type="text" name="spells"><br>
+    kills:<input type="text" name="kills"><br>
+    deaths:<input type="text" name="deaths"><br>
+    assists:<input type="text" name="assists"><br>
+    cs:<input type="text" name="cs"><br>
+    gold:<input type="text" name="gold"><br>
+    items:<input type="text" name="items"><br>
+    bans:<input type="text" name="bans"><br>
+    <input type="submit">
+</form>

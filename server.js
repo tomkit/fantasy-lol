@@ -13,6 +13,8 @@ var RedisStore = require('connect-redis')(express);
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var Player = require('./models/player.js');
+var RenderHelper = require('./renderhelper.js');
+var renderHelper = new RenderHelper();
 var viewFiles;
 
 app.engine('html', cons.underscore);
@@ -83,49 +85,76 @@ passport.deserializeUser(function(id, done) {
 // Routes
 app.get('/', function(req, res, next) {
     res.render('body.html', {
-        layout : 'layout.html'
+        layout : 'layout.html',
+        renderHelper : renderHelper
     });
 });
 
 routes.load(app);
 
 viewFiles = fs.readdirSync('views');
-function registerGet(req, res, prefix, filename, resourceId) {
+adminFiles = fs.readdirSync('views/admin');
+//console.log(viewFiles);
+//console.log(adminFiles);
+function registerGet(req, res, resource, filename, resourceId) {
     var loggedInUser = req.user || {
         id : -1
     };
-    console.log(prefix);
-    
-    if(BusinessLogic[prefix]) {
-        BusinessLogic[prefix](function(json) {
+//    console.log('uri:'+uri);
+    console.log('filename:'+filename);
+    console.log(BusinessLogic[resource]);
+    if(BusinessLogic[resource]) {
+        BusinessLogic[resource](function(json) {
             
             console.log('rendering:');
-            console.log(req.user);
-            
+//            console.log(json);
             res.render(filename, _.extend({
                 layout : 'layout.html',
-                user_id : loggedInUser.id
+                user_id : loggedInUser.id,
+                renderHelper : renderHelper
             }, json));
-        }, req.user, prefix, resourceId);
+        }, req.user, resource, resourceId);
     } else {
         res.render(filename, _.extend({
             layout : 'layout.html',
-            user_id : loggedInUser.id
+            user_id : loggedInUser.id,
+            renderHelper : renderHelper
         }));
     }
 }
-_.each(viewFiles, function(filename) {
-    var prefix = filename.substring(0, filename.indexOf('.'));
+
+function registerGets(uri, resource, filename) {
     
-    app.get('/'+prefix, function(req, res) {
-        registerGet(req, res, prefix, filename);
+    console.log('registering:'+uri);
+    app.get(uri, function(req, res) {
+        var updatedFilename = '.'+uri+'.html';
+        registerGet(req, res, resource, updatedFilename);
     });
     
-    app.get('/'+prefix+'/:resourceId', function(req, res) {
+    console.log('registering:'+uri+'/:resourceId');
+    app.get(uri+'/:resourceId', function(req, res) {
         var resourceId = req.param('resourceId');
-        console.log('resourceid');
-        registerGet(req, res, prefix.substring(0, prefix.length-1), filename.replace('s.', '.'), resourceId);
+        console.log(uri);
+        var singularResource = resource.substring(0, resource.length-1);
+        var singularFilename = '.'+uri.substring(0, uri.length-1)+'.html';
+//        console.log('resourceid');
+        console.log(singularFilename);
+        registerGet(req, res, singularResource, singularFilename, resourceId);
     });
+}
+_.each(viewFiles, function(filename) {
+    if(filename.indexOf('.') > -1) {
+        var resource = filename.substring(0, filename.indexOf('.'));
+        var uri = '/'+resource;
+        registerGets(uri, resource, filename);
+    }
+});
+_.each(adminFiles, function(filename) {
+    if(filename.indexOf('.') > -1) {
+        var resource = filename.substring(0, filename.indexOf('.'));
+        var uri = '/admin/'+resource;
+        registerGets(uri, resource, filename);
+    }
 });
 
 app.listen(process.env.PORT || 9000);

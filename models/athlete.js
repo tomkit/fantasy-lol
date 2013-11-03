@@ -17,7 +17,7 @@ athleteSchema.statics.getAthlete = function(cb, userId, resourceId) {
 
 athleteSchema.statics.getAllAthletes = function(cb) {
     this.find({}, function(err, athletes) {
-        console.log('athletes');
+//        console.log('athletes');
 //        console.log(athletes);
         cb(athletes);
     });

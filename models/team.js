@@ -19,15 +19,20 @@ var teamSchema = new mongoose.Schema({
     }]
 });
 
-teamSchema.statics.getTeam = function(cb, userId, leagueId) {
+teamSchema.statics.getTeam = function(cb, userId, teamId) {
     this.find({
         user_id : userId,
-        league_id : leagueId
+        _id : teamId
     }, function(err, teams) {
-        var team = teams[0].toObject();
+        if(teams && teams.length) {
+            var team = teams[0].toObject();
+            
+            console.log(team);
+            cb(team);
+        } else {
+            cb({});
+        }
         
-        console.log(team);
-        cb(team);
     });
 };
 

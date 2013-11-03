@@ -1,5 +1,6 @@
 <%= partial('header.html') %>
 
+Team Id: <%=team._id%><br>
 Created Date:<%=team.created_date%><br>
 League Id:<%=team.league_id%><br>
 Your Team Name:<%=team.team_name%><br>
@@ -8,7 +9,7 @@ Stats:<%=team.stats%><br>
 History:<%=team.opponent_history%><br>
 
 <br><br>
-<form action="/api/teams" method="post">
+<form action="/api/teams/<%=team._id%>" method="post">
 <table>
 <tr>
 <td>In your team?</td>
@@ -17,9 +18,11 @@ History:<%=team.opponent_history%><br>
 <td>Nickname</td>
 <td>Country</td>
 </tr>
+<% var athleteObject = renderHelper.flattenObjectIdArray(team.athletes) %>
+<%= JSON.stringify(athleteObject)%>
 <% for(var i = 0; i < athletes.length; i++) { %>
     <tr>
-        <td><input type="checkbox" name="athlete_id" value="<%=athletes[i].id%>" <%=_.contains(team.athletes, athletes[i].id) ? 'checked' : ''%>></td>
+        <td><input type="checkbox" name="athlete_id" value="<%=athletes[i].id%>" <%=athleteObject[athletes[i].id] ? 'checked' : ''%>></td>
         <td><%= athletes[i].first_name %></td>
         <td><%= athletes[i].last_name %></td>
         <td><%= athletes[i].nickname %></td>
