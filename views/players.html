@@ -4,7 +4,6 @@
 <h3>Players</h3>
 <% for(var i = 0; i < players.length; i++) { %>
     <div class="row">
-        <div class="col-md-4"><%= players[i].username || 'Unknown' %></div>
-        <div class="col-md-4"><a href="#"><%= players[i].id %></a></div>
+        <div class="col-md-4"><a href="/players/<%=players[i].id%>"><%= players[i].username || 'Unknown' %></a></div>
     </div>
 <% } %>

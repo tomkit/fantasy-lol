@@ -4,7 +4,6 @@
 <h3>Leagues</h3>
 <% for(var i = 0; i < leagues.length; i++) { %>
     <div class="row">
-        <div class="col-md-4"><%= leagues[i].league_name %></div>
-        <div class="col-md-4"><%= leagues[i].id %></div>
+        <div class="col-md-4"><a href="/leagues/<%=leagues[i].id%>"><%= leagues[i].league_name %></a></div>
     </div>
 <% } %>

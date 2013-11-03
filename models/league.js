@@ -13,6 +13,23 @@ var leagueSchema = new mongoose.Schema({
     country : String,
 });
 
+
+leagueSchema.statics.getLeague = function(cb, leagueId) {
+    console.log(leagueId);
+    this.find({
+        _id : leagueId
+    }, function(err, leagues) {
+        console.log(leagues);
+        if(leagues && leagues.length) {
+            
+            cb(leagues[0]);
+        } else {
+            cb({});
+        }
+        
+    });
+};
+
 leagueSchema.statics.getAllLeagues = function(cb) {
     this.find({}, 'league_name', function(err, leagues) {    
         cb(leagues);

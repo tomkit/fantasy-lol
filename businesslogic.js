@@ -6,12 +6,12 @@ var async = require('async');
 
 var BusinessLogic = {};
 
-BusinessLogic.player = function(cb, user, resource, resourceId) {
+BusinessLogic.player = function(cb, user, resource, resourceId ) {
     Player.getPlayer(function(player) {
         cb({
             'player' : player
         });
-    }, user.id, resourceId);
+    }, resourceId);
 };
 
 BusinessLogic.players = function(cb, user) {
@@ -20,6 +20,16 @@ BusinessLogic.players = function(cb, user) {
             'players' : players
         });
     });
+};
+
+BusinessLogic.league = function(cb, user, resource, resourceId) {
+    console.log(resource);
+    console.log(resourceId);
+    League.getLeague(function(league) {
+        cb({
+            'league' : league
+        });
+    }, resourceId);
 };
 
 BusinessLogic.leagues = function(cb, user) {
