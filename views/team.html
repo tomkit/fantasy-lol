@@ -13,18 +13,29 @@ History:<%=team.opponent_history%><br>
 
 <br><br>
 <form action="/api/teams/<%=team._id%>" method="post">
+<% var athleteObject = renderHelper.flattenObjectIdArray(team.athletes) %>
+
+<h4>Your team members</h4>
+<% for(var i = 0; i < team.athletes.length; i++) { %>
+    <div class="row">
+    <div class="col-md-4">Player w/ ID: <%=athleteObject[team.athletes[i].toHexString()]%></div>
+</div>
+<% } %>
+
+<h4>Available to draft</h4>
 <table>
 <tr>
+<td>Picture</td>
 <td>In your team?</td>
 <td>Firstname</td>
 <td>Lastname</td>
 <td>Nickname</td>
 <td>Country</td>
 </tr>
-<% var athleteObject = renderHelper.flattenObjectIdArray(team.athletes) %>
-<%= JSON.stringify(athleteObject)%>
+
 <% for(var i = 0; i < athletes.length; i++) { %>
     <tr>
+        <td><img src="<%=renderHelper.randomAthleteImage()%>"></td>
         <td><input type="checkbox" name="athlete_id" value="<%=athletes[i].id%>" <%=athleteObject[athletes[i].id] ? 'checked' : ''%>></td>
         <td><%= athletes[i].first_name %></td>
         <td><%= athletes[i].last_name %></td>

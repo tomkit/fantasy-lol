@@ -3,6 +3,9 @@
 <h3>Athletes</h3>
 <% for(var i = 0; i < athletes.length; i++) { %>
     <div class="row">
+        <div class="col-md-3">
+            <img src="<%=renderHelper.randomAthleteImage()%>">
+        </div>
         <div class="col-md-2"><a href="/athletes/<%-athletes[i].id%>"><%= athletes[i].first_name %></a></div>
         <div class="col-md-2"><%= athletes[i].last_name %></div>
         <div class="col-md-2"><%= athletes[i].nickname %></div>

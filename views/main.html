@@ -1,6 +1,36 @@
 <%= partial('header.html') %>
 
 <h2>Streaming game results...</h2>
+<div id="featured-content" class="carousel slide" data-ride="carousel" style="width:320px">
+    <ol class="carousel-indicators">
+        <li data-target="#featured-content" data-slide-to="0" class="active"></li>
+        <li data-target="#featured-content" data-slide-to="1"></li>
+        <li data-target="#featured-content" data-slide-to="2"></li>
+    </ol>
+    
+    <div class="carousel-inner">
+        <div class="item active">
+            <img src="http://na.leagueoflegends.com/sites/default/files/styles/wide_small/public/upload/ps4_article_banner.jpg?itok=-YfyQK8Z" alt="">
+            <div class="carousel-caption">Some caption here</div>
+        </div>
+        <div class="item">
+            <img src="http://na.leagueoflegends.com/sites/default/files/styles/wide_small/public/upload/lol.com_.articlebanner.patchnotes_6.jpg?itok=wgWr5GSB" alt="">
+            <div class="carousel-caption">Another caption here</div>
+        </div>
+        <div class="item">
+            <img src="http://na.leagueoflegends.com/sites/default/files/styles/wide_small/public/upload/lol.com_.articleheader.endofseason3rewards.enawea.jpg?itok=H8Qbl8CR" alt="">
+            <div class="carousel-caption">A third caption</div>
+        </div>
+    </div>
+    
+    <a class="left carousel-control" href="#featured-content" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+    </a>
+    <a class="right carousel-control" href="#featured-content" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+</div>
+
 <h3>Upcoming Matches</h3>
   <div class="row">
     <div class="col-md-4">Game 1 LCS 9/13/13 9:00PM PST</div>

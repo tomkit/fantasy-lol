@@ -2,6 +2,7 @@ var Player = require('./models/player.js');
 var League = require('./models/league.js');
 var Team = require('./models/team.js');
 var GameResult = require('./models/gameresult.js');
+var Athlete = require('./models/athlete.js');
 var passport = require('passport');
 
 exports.load = function(app) {
@@ -17,6 +18,10 @@ exports.load = function(app) {
     
     app.post('/api/leagues', function(req, res, next) {
         League.createLeague(req, res);
+    });
+    
+    app.post('/api/athletes', function(req, res, next) {
+        Athlete.createAthlete(req, res);
     });
     
     app.post('/api/gameresults', function(req, res, next) {

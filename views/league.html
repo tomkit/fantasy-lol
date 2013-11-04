@@ -1,7 +1,7 @@
 <%= partial('header.html') %>
 
 <h3>League: <%=league.league_name%></h3>
-
+<img src="<%=renderHelper.randomLeagueImage()%>"><br>
 Created Date: <%=league.created_date%><br>
 Owner User ID: <%=league.user_id%><br>
 Draft Date: <%=league.draft_date%><br>

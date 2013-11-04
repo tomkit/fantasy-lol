@@ -1,0 +1,10 @@
+<%= partial('header.html') %>
+
+<h3>Admin Tool: Create new athlete</h3>
+<form action="/api/athletes" method="post">
+    first name:<input type="text" name="first_name"><br>
+    last name:<input type="text" name="last_name"><br>
+    nickname:<input type="text" name="nickname"><br>
+    country:<input type="text" name="country"><br>
+    <input type="submit">
+</form>

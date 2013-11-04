@@ -3,12 +3,14 @@
 <h3>Athlete</h3>
 <table>
 <tr>
+<td>Picture</td>
 <td>Firstname</td>
 <td>Lastname</td>
 <td>Nickname</td>
 <td>Country</td>
 </tr>
 <tr>
+    <td><img src="<%=renderHelper.randomAthleteImage()%>"></td>
     <td><%= athlete.first_name %></td>
     <td><%= athlete.last_name %></td>
     <td><%= athlete.nickname %></td>
