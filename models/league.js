@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.ObjectId;
 var Team = require('./team.js');
 var Player = require('./player.js');
+var emailer = require('../emailer.js');
 
 var leagueSchema = new mongoose.Schema({
     created_date : Date,
@@ -73,6 +74,17 @@ leagueSchema.statics.createLeague = function(req, res) {
                             userId: playerObjs[j].id,
                             teamName: leagueName,
                             leagueId: league.id
+                        });
+                        
+                        emailer.send({
+                            from: 'tomkit@gmail.com',
+                            to: [playerEmail],
+                            replyTo: ['tomkit@gmail.com'],
+                            subject: "Fantasy LoL: Invited to a league",
+                            body: {
+                                text: "You've been invited to join a league in Fantasy LoL",
+                                html: "You've been invited to join a league in Fantasy LoL"
+                            }
                         });
                         break;
                     }

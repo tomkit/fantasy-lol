@@ -2,6 +2,7 @@
     "name": "yournamehere",
     "version": "0.1.0",    
     "dependencies": {
+        "amazon-ses":"0.0.3",
         "async":"0.2.9",
         "connect-redis":"1.4.5",
         "consolidate":"0.8.0",
