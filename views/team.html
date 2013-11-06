@@ -3,6 +3,13 @@
 
 <h3>Current Score: 13</h3>
 <br>
+<h4>Players in this league</h4>
+<% for(var i = 0; i < teams.length; i++) { %>
+    Team: <%=teams[i].team_name%><br>
+<% } %>
+<br>
+
+<h4>Your Team Info</h4>
 Team Id: <%=team._id%><br>
 Created Date:<%=team.created_date%><br>
 League Id:<%=team.league_id%><br>
@@ -11,7 +18,6 @@ Athletes:<%=team.athletes%><br>
 Stats:<%=team.stats%><br>
 History:<%=team.opponent_history%><br>
 
-<br><br>
 <form action="/api/teams/<%=team._id%>" method="post">
 <% var athleteObject = renderHelper.flattenObjectIdArray(team.athletes) %>
 

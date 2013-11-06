@@ -19,6 +19,14 @@ var teamSchema = new mongoose.Schema({
     }]
 });
 
+teamSchema.statics.getTeams = function(cb, leagueId) {
+    this.find({
+        league_id: leagueId
+    }, function(err, teams) {
+        cb(teams);
+    });
+};
+
 teamSchema.statics.getTeam = function(cb, userId, teamId) {
     this.find({
         user_id : userId,

@@ -45,7 +45,15 @@ BusinessLogic.team = function(cb, user, resource, resourceId) {
     
     async.parallel([function(parallelCB) {
         Team.getTeam(function(team) {
-            parallelCB(null, team);
+            Team.getTeams(function(teams) {
+                
+                parallelCB(null, {
+                    team: team,
+                    teams: teams
+                });
+            }, team.league_id);
+            
+            
         }, user.id, resourceId);
     }, function(parallelCB) {
         Athlete.getAllAthletes(function(athletes) {
@@ -53,7 +61,8 @@ BusinessLogic.team = function(cb, user, resource, resourceId) {
         });
     }], function(err, results) {
         cb({
-            'team' : results[0],
+            'team' : results[0].team,
+            'teams' : results[0].teams,
             'athletes' : results[1]
         });
     });

@@ -72,7 +72,7 @@ leagueSchema.statics.createLeague = function(req, res) {
                     if(playerObjs[j].email === playerEmail) {
                         Team.createTeam({
                             userId: playerObjs[j].id,
-                            teamName: leagueName,
+                            teamName: 'Empty',
                             leagueId: league.id
                         });
                         
