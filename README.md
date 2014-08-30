@@ -1,4 +1,4 @@
 fantasy-lol
 ===========
 
-Fantasy LoL
+Hackathon project for a Fantasy League of Legends website
